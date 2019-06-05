@@ -1,0 +1,28 @@
+---
+
+  - name: Install epel release (Redhat).
+    become: true
+    yum: name=epel-release state=present
+    when: ansible_pkg_mgr == "yum"
+
+  - include: update.yml
+    become: true
+
+  - name: Install common packages.
+    become: true
+    package: name={{ item }} state=present
+    with_items:
+      - acl
+      - rsync
+      - ntp
+      - htop
+      - nano
+      - openssl
+      - screen
+      - mc
+
+  - name: Deploy .screenrc to the home.
+    copy:
+      src: files/.screenrc
+      dest: "{{ ansible_env.HOME }}"
+

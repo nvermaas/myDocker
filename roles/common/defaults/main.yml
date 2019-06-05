@@ -1,0 +1,5 @@
+---
+
+COMMON_PACKAGE_UPGRADE: false
+
+COMMON_APT_ADD_CACHE: false

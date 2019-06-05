@@ -1,0 +1,13 @@
+---
+  - name: Hosts run on Ubuntu
+    hosts: all
+    become: false
+    roles:
+      - common
+
+  - name: Setup Nginx Webserver.
+    hosts: my_docker
+    become: false
+    roles:
+      - nginx
+

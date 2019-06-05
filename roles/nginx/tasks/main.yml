@@ -1,0 +1,36 @@
+---
+
+  - name: Install nginx.
+    become: true
+    package: name=nginx update_cache=true state=present
+    tags: packages
+
+  - name: Ensure Nginx service is stopped.
+    become: true
+    service: name=nginx state=stopped
+
+  - name: Create the sites available and enabled directories.
+    become: true
+    file: path=/etc/nginx/{{item}} state=directory
+    with_items:
+      - sites-available
+      - sites-enabled
+
+  - name: Create the Nginx configuration file.
+    become: true
+    template: src=templates/nginx_conf.j2
+              dest=/etc/nginx/nginx.conf
+              backup=yes
+    notify: reload nginx
+
+  # Ubuntu sites-enabled preferred installation.
+  - name: Ensure that the default site is disabled.
+    become: true
+    file: path=/etc/nginx/sites-enabled/default state=absent
+    when: ansible_os_family == 'Debian'
+    notify: reload nginx
+
+  - name: Ensure Nginx service is started.
+    become: true
+    service: name=nginx state=started enabled=yes
+

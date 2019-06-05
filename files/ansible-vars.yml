@@ -1,0 +1,47 @@
+---
+
+###############
+# Deployment parameters
+###############
+#DEPLOY_SOURCE: "Nexus"
+DEPLOY_SOURCE: "Local"
+
+
+###############
+# Application wide definitions.
+###############
+
+# Name definitions.
+APPLICATION_NAME: "homebase"
+
+APPLICATION_DOMAIN: "my.dev.net"
+
+DEPLOY_ENVIRONMENT: prod
+BACKEND_SOURCE_PATH: "repository/backend/{{ DJANGO_PROJECT_NAME }}/"
+BACKEND_STATIC_SOURCE_PATH: "repository/my_static_files/"
+
+# Path definitions.
+INSTALL_PATH: "/var/www/{{ APPLICATION_DOMAIN}}/"
+DJANGO_PROJECT_PATH: "{{ INSTALL_PATH }}{{ DJANGO_PROJECT_NAME }}/"
+
+DJANGO_STATIC_PATH: "{{ DJANGO_PROJECT_PATH }}homebase/static/"
+APPLICATION_LOGS_PATH: "{{ DJANGO_PROJECT_PATH }}logs/"
+APPLICATION_STATIC_PATH: "{{ DJANGO_PROJECT_PATH }}static/"
+
+
+WEBSERVER_USER: "{{ APPLICATION_NAME }}"
+WEBSERVER_GROUP: "webapps"
+
+###############
+# Define the Nginx role variables.
+###############
+NGINX_APPLICATION_IP: 192.168.22.30
+NGINX_APPLICATION_SERVER_NAME: "{{ APPLICATION_DOMAIN }}"
+NGINX_ROOT_PATH: "/var/www/{{ NGINX_APPLICATION_SERVER_NAME }}/"
+NGINX_STATIC_PATH: "{{ NGINX_ROOT_PATH }}public_html"
+NGINX_STATIC_STATIC_PATH: "{{ NGINX_STATIC_PATH }}/static"
+NGINX_APPLICATION_CONF_FILE_NAME: "{{ APPLICATION_NAME }}.conf"
+NGINX_BIND_SOCKET: "{{ UNIX_SOCKET }}"
+
+
+
